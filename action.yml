@@ -1,0 +1,48 @@
+name: "oneshot"
+description: "Zero/One shot prompting with Chat GPT from Open AI"
+inputs:
+  openai_api_key:
+    description: "OpenAI API Key"
+    required: true
+  model:
+    description: "Model"
+    required: false
+    default: "gpt-3.5-turbo"
+  temperature:
+    description: "Temperature"
+    required: false
+    default: "0.7"
+  prompt:
+    description: "Prompt"
+    required: true
+outputs:
+  output:
+    description: "Output"
+    value: ${{ steps.prompting.outputs.output }}
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+
+    - name: Install requirements
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install -r requirements.txt
+
+    - id: prompting
+      name: Prompting
+      shell: bash
+      run: |
+        echo "output=$(python main.py)" >> "$GITHUB_OUTPUT"
+      env:
+        OPENAI_API_KEY: ${{ inputs.openai_api_key }}
+        MODEL: ${{ inputs.model }}
+        TEMPERATURE: ${{ inputs.temperature }}
+        PROMPT: ${{ inputs.prompt }}
