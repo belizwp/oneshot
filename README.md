@@ -7,7 +7,8 @@ Github Action for zero or one shot prompting with chat gpt model from OpenAI.
 ```yaml
 steps:
 - uses: actions/checkout@v3
-- uses: belizwp/oneshot@main
+- id: oneshot
+  uses: belizwp/oneshot@main
   with:
     openai_api_key: ${{ secrets.OPENAI_API_KEY }}
     prompt: "How are you?"
