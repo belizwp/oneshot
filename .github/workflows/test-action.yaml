@@ -1,0 +1,22 @@
+name: Test action
+
+on:
+  workflow_dispatch:
+    inputs:
+      prompt:
+        description: "promt"
+        required: true
+
+jobs:
+  prompt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - id: oneshot
+        uses: ./
+        with:
+          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
+          prompt: ${{ inputs.prompt }}
+      - shell: bash
+        run: |
+          echo "output=${{ steps.oneshot.outputs.output }}"
