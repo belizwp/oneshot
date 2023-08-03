@@ -22,3 +22,8 @@ outputs:
 runs:
   using: "docker"
   image: "Dockerfile"
+  env:
+    OPENAI_API_KEY: ${{ inputs.openai_api_key }}
+    MODEL: ${{ inputs.model }}
+    TEMPERATURE: ${{ inputs.temperature }}
+    PROMPT: ${{ inputs.prompt }}
